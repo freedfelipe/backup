@@ -12,12 +12,12 @@ Begin by installing this package through Composer.
 
 You can run:
 
-    composer require paulvl/backup 3.*
+    composer require freedfelipe/backup 3.*
 
 Or edit your project's composer.json file to require paulvl/backup.
 ```
     "require": {
-        "paulvl/backup": "3.*"
+        "freedfelipe/backup": "3.*"
     }
 ```
 Next, update Composer from the Terminal:
