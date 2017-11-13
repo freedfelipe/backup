@@ -94,6 +94,9 @@ class MysqlDump extends Command
      */
     protected $isCompressionEnabled = false;
 
+
+    protected $tables;
+
     public function __construct()
     {
         parent::__construct();
@@ -108,12 +111,13 @@ class MysqlDump extends Command
             'password' => config('database.connections.mysql.password'),
         ];
 
-        $this->localDisk = config('backup.mysql.local-storage.disk', 'local');
-        $this->localPath = config('backup.mysql.local-storage.path', null);
-        $this->cloudSync = config('backup.mysql.cloud-storage.enabled', false);
-        $this->cloudDisk = config('backup.mysql.cloud-storage.disk', null);
-        $this->cloudPath = config('backup.mysql.cloud-storage.path', null);
-        $this->keepLocal = config('backup.mysql.cloud-storage.keep-local', true);
+        $this->localDisk 		= config('backup.mysql.local-storage.disk', 'local');
+        $this->localPath 		= config('backup.mysql.local-storage.path', null);
+        $this->cloudSync 		= config('backup.mysql.cloud-storage.enabled', false);
+        $this->cloudDisk 		= config('backup.mysql.cloud-storage.disk', null);
+        $this->cloudPath 		= config('backup.mysql.cloud-storage.path', null);
+        $this->keepLocal 		= config('backup.mysql.cloud-storage.keep-local', true);
+		$this->tables			= config('backup.mysql.tables_prefix', null);
     }
 
     /**
@@ -197,12 +201,13 @@ class MysqlDump extends Command
         $database = $this->connection['database'];
         $username = escapeshellarg($this->connection['username']);
         $password = $this->connection['password'];
+        $tables		= (count($this->tables) > 0 ) ? implode( ' ', $this->tables) : '';
 
         $databaseArg = escapeshellarg($database);
         $portArg = !empty($port) ? '-P '.escapeshellarg($port) : '';
         $passwordArg = !empty($password) ? '-p'.escapeshellarg($password) : '';
 
-        $dumpCommand = "{$this->mysqldumpPath} -C -h {$hostname} {$portArg} -u{$username} {$passwordArg} --single-transaction --skip-lock-tables --quick {$databaseArg}";
+        $dumpCommand = "{$this->mysqldumpPath} -C -h {$hostname} {$portArg} -u{$username} {$passwordArg} --single-transaction --skip-lock-tables --quick {$databaseArg} {$tables}";
 
         exec($dumpCommand, $dumpResult, $result);
 
