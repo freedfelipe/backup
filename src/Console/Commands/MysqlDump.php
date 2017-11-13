@@ -94,7 +94,11 @@ class MysqlDump extends Command
      */
     protected $isCompressionEnabled = false;
 
-
+	/**
+	 *	Table's names
+	 *
+	 * @var array
+	 */
     protected $tables;
 
     public function __construct()
@@ -117,7 +121,7 @@ class MysqlDump extends Command
         $this->cloudDisk 		= config('backup.mysql.cloud-storage.disk', null);
         $this->cloudPath 		= config('backup.mysql.cloud-storage.path', null);
         $this->keepLocal 		= config('backup.mysql.cloud-storage.keep-local', true);
-		$this->tables			= config('backup.mysql.tables_prefix', null);
+		$this->tables			= config('backup.mysql.tables', null);
     }
 
     /**
