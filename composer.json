@@ -1,6 +1,6 @@
 {
-    "name": "freedfelipe/backup",
-    "description": "Database backup package for laravel 5.*",
+    "name": "freedfelipe/backup_by_table",
+    "description": "Database backup by table package for laravel 5.*",
     "license": "MIT",
     "authors": [
         {
